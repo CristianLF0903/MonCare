@@ -12,7 +12,7 @@ def login_view(request):
             user = authenticate(request, email=email, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('login/home.html')
+                return redirect('home/')
     else:
         form = LoginForm()
 
@@ -26,7 +26,7 @@ def registro_view(request):
             user = form.save()
             login(request, user)
             # Redirige a la página que desees después del registro exitoso
-            return redirect('')
+            return redirect('home/')
     else:
         form = RegistroForm()
 

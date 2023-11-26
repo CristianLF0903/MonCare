@@ -40,7 +40,7 @@ class RegistroForm(forms.ModelForm):
             raise forms.ValidationError("Las contraseñas no coinciden.")
 
     def save(self, commit=True):
-        user = super(RegistroForm, self).save(commit=False)
+        user = Usuario()
         user.nombre = self.cleaned_data['nombre']
         user.apellido = self.cleaned_data['apellido']
         user.correo = self.cleaned_data['correo']
