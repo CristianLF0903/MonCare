@@ -9,7 +9,7 @@
 
     <style>
         body {
-            background-image: url('/moncare/login/templates/login/images/waves.png');
+            background-image: url('/moncare/static/waves_bg.png');
             background-size: cover; /* Ajusta el tamaño de la imagen para cubrir todo el fondo */
             background-position: center center; /* Centra la imagen */
             background-repeat: no-repeat; /* Evita que la imagen se repita */
@@ -99,7 +99,7 @@
 
 <body>
     <div class="container mt-5 login_container">
-        <img src="moncare/login/templates/login/images/solar_user-circle-bold.png" alt="user_logo" />
+        <img src="/static/solar_user-circle-bold.png" alt="user_logo" />
         <form method="post" class="mt-3">
             {% csrf_token %}
             {{ form.as_div }}
