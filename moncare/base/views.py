@@ -8,8 +8,7 @@ from base.forms import UsuarioForm
 @login_required
 def home(request):
     logged_in_user = request.user
-    user = Usuario.objects.get(user = logged_in_user) #Usuario logueado
-    return render(request, 'base/home.html', {'user': user})
+    return render(request, 'base/home.html', {'user': logged_in_user})
 
 @login_required
 def logout(request):
@@ -19,7 +18,6 @@ def logout(request):
 @login_required
 def perfil(request):
     user_logged = request.user
-    user = Usuario.objects.get(user = user_logged)
 
-    form = UsuarioForm(instance=user.user)    
-    return render(request, 'base/perfil.html', {'form': form, 'usuario': user})
+    form = UsuarioForm(instance=user_logged)    
+    return render(request, 'base/perfil.html', {'form': form, 'usuario': user_logged})
