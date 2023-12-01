@@ -10,11 +10,17 @@ def registro(request):
         if form.is_valid():
             user = form.save()
             tipo_usuario = form.cleaned_data['Tipo_usuario']
-            usuario = Usuario.objects.create(
-                user=user, Tipo_usuario=tipo_usuario)
+            # Verificar si ya existe un objeto Usuario para este usuario
+            usuario, created = Usuario.objects.get_or_create(user=user)
+
+            if created:
+                # Solo si se creó un nuevo objeto Usuario, configurar el tipo de usuario
+                tipo_usuario = form.cleaned_data['Tipo_usuario']
+                usuario.Tipo_usuario = tipo_usuario
+                usuario.save()
+
             login(request, user)
-            # Cambia 'index' por la URL a la que quieras redirigir después del registro
-            return redirect('pagina_principal')
+            return redirect('perfil')
     else:
         form = RegistroForm()
     return render(request, 'login/registro.html', {'form': form})
