@@ -1,2 +1,3 @@
 .vscode/
 env/
+moncare/base/templates/base/test_gestor_dispositivos.html
