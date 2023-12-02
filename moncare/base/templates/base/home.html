@@ -88,6 +88,12 @@
             </div>
             <div class="col"><a href="pacientes">pacientes</a></div>
             <div class="col"><a href="perfil">Perfil</a></div>
+            {% elif user.tipo_usuario == 'Cuidador' %}
+            <div class="col">
+              <a href="historia_clinica">Historia Clinica</a>
+            </div>
+            <div class="col"><a href="pacientes">pacientes</a></div>
+            <div class="col"><a href="perfil">Perfil</a></div>
             {% endif %} {% endif %}
           </div>
         </div>
