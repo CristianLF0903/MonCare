@@ -66,6 +66,13 @@
 
     <div class="perfil_container">
       <h1>Perfil</h1>
+      {% if messages %}
+      <div class="messages">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
       <form>
         {% csrf_token %} {{ form.as_div }}
         <button type="submit" class="btn btn-primary">Guardar</button>

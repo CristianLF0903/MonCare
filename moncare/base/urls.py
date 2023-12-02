@@ -9,7 +9,7 @@ urlpatterns = [
 
     # Dispositivos
     path("Moncare/dispositivos", dispositivos, name="dispositivos"),
-    path('Moncare/eliminar_dispositivo/<int:dispositivo_id>/', eliminar_dispositivo, name='eliminar_dispositivo'),
+    path('Moncare/eliminar_dispositivo/<int:dispositivo_id>/', eliminar_dispositivo, name='elimiar_dispositivo'),
     path('Moncare/editar_dispositivo/<int:dispositivo_id>/', editar_dispositivo, name='editar_dispositivo'),
     path('Moncare/agregar_dispositivo/', agregar_dispositivo, name='agregar_dispositivo'),
 
