@@ -70,7 +70,6 @@ def perfil(request):
 def dispositivos(request):
 
     dispositivos = Dispositivo_Medico.objects.all()
-    print(dispositivos)
     context = {
         'dispositivos': dispositivos,
     }
