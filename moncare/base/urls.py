@@ -13,4 +13,9 @@ urlpatterns = [
     path('Moncare/editar_dispositivo/<int:dispositivo_id>/', editar_dispositivo, name='editar_dispositivo'),
     path('Moncare/agregar_dispositivo/', agregar_dispositivo, name='agregar_dispositivo'),
 
+    # Dispositivos
+    path("Moncare/empleados", empleados, name="empleados"),
+    path('Moncare/eliminar_empleado/<int:empleado_id>/', eliminar_empleado, name='elimiar_empleado'),
+    path('Moncare/editar_empleado/<int:empleado_id>/', editar_empleado, name='editar_empleado'),
+
 ]

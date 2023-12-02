@@ -8,7 +8,7 @@ class UsuarioForm(UserChangeForm):
     password = forms.CharField(
         label="Contraseña",
         widget=forms.PasswordInput,
-        help_text="Deja este campo en blanco si no deseas cambiar la contraseña."
+        required=False,
     )
 
     class Meta:
@@ -20,9 +20,58 @@ class UsuarioForm(UserChangeForm):
 
         # Deshabilitar el campo username
         self.fields['username'].widget.attrs['readonly'] = True
+        self.fields['username'].help_text = None
 
         # Personalizar la etiqueta del campo password
         self.fields['password'].label = "Nueva Contraseña"
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+
+        # Verificar si se proporciona una nueva contraseña
+        new_password = self.cleaned_data.get('password')
+        if new_password:
+            user.set_password(new_password)
+
+        if commit:
+            user.save()
+
+        return user
+
+class EmpleadoForm(UserChangeForm):
+    password = forms.CharField(
+        label="Contraseña",
+        widget=forms.PasswordInput,
+        required=False,
+    )
+
+    class Meta:
+        model = Usuario
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_usuario', 'tipo_empleado')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Deshabilitar el campo username
+        self.fields['username'].widget.attrs['readonly'] = True
+        self.fields['tipo_usuario'].widget.attrs['readonly'] = True
+        self.fields['username'].help_text = None
+
+        # Personalizar la etiqueta del campo password
+        self.fields['password'].label = "Nueva Contraseña"
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+
+        # Verificar si se proporciona una nueva contraseña
+        new_password = self.cleaned_data.get('password')
+        if new_password:
+            user.set_password(new_password)
+
+        if commit:
+            user.save()
+
+        return user
 
 # Formularios de dispositivos
 class DispositivoMedicoForm(forms.ModelForm):
