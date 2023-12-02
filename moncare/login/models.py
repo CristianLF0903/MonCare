@@ -8,7 +8,16 @@ class Usuario(AbstractUser):
         ('Empleado de Salud', 'Empleado de Salud'),
     )
 
+    EMPLOYE_TYPE_CHOICES = (
+        ('Medico', 'Medico'),
+        ('Cuidador', 'Cuidador'),
+        ('Paramedico', 'Paramedico'),
+        ('Empleado de Salud', 'Empleado de Salud'),
+    )
+
     tipo_usuario = models.CharField(max_length=20, choices=USER_TYPE_CHOICES)
+    is_admin = models.BooleanField(default=False)
+    tipo_empleado = models.CharField(max_length=20, choices=EMPLOYE_TYPE_CHOICES, null=True, blank=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
