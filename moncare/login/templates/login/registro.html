@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <style>
+        body {
+            background-image: url('{% static 'waves_bg.png' %}');
+            background-size: 100% 100%; /* Hace que la imagen se ajuste al 100% del ancho y mantenga la altura original */
+            background-position: center center;
+            background-repeat: no-repeat;
+
+            display: flex;
+            justify-content: center; 
+            align-items: center;    
+            height: cover;
+            weight: cover;
+            margin: 0;
+            padding: 15px;
+            min-height: 100vh;
+        }
+
+        .form_container {
+            display: inline-block;
+            border-radius: 20px;
+            background: #D4EEFF;
+            box-shadow: 0px 0px 15px 10px rgba(0, 0, 0, 0.25);
+
+            width: 690px;
+            padding: 45px 45px;
+            overflow: auto;
+            flex-direction: column;
+        }
+
+        form div{
+            color: #000;
+
+            font-family: Changa;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 200;
+            line-height: normal;
+        }
+
+        .errorlist{
+            color: #ff0000;
+
+            font-family: Changa;
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 200;
+            line-height: normal;
+        }
+
+        h1 {
+            color: #0065A9;
+
+            text-align: center;
+            font-family: Changa;
+            font-size: 48px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: normal;
+        }
+        
+    </style>
+
+</head>
+<body>
+<div class="container mt-5 form_container">
+    <h1>Registro</h1>
+    <form method="post" class="mt-3">
+        {% csrf_token %}
+        {{ form.as_div }}
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1" required>
+            <label class="form-check-label" for="exampleCheck1">Acepto <a href="">política de tratamiento de datos</a></label>
+        </div>
+        <button type="submit" class="btn btn-primary">Registrarse</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>
