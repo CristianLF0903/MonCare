@@ -256,6 +256,7 @@ def eliminar_dispositivo_p(request, dispositivo_id):
     dispositivo = Dispositivo_Medico.objects.get(id = dispositivo_id)
     paciente = dispositivo.id_paciente.id
 
+    dispositivo.id_configurador = None
     dispositivo.id_paciente = None
     dispositivo.asignado = False
     dispositivo.save()

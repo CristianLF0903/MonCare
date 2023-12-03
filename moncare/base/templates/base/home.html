@@ -114,15 +114,9 @@
             <div class="col"><a href="notificaciones">Notificaciones</a></div>
             <div class="col"><a href="perfil">Perfil</a></div>
             {% else %} {% if user.tipo_empleado == 'Medico' %}
-            <div class="col">
-              <a href="historia_clinica">Historia Clinica</a>
-            </div>
             <div class="col"><a href="pacientes">pacientes</a></div>
             <div class="col"><a href="perfil">Perfil</a></div>
             {% elif user.tipo_empleado == 'Cuidador' %}
-            <div class="col">
-              <a href="historia_clinica">Historia Clinica</a>
-            </div>
             <div class="col"><a href="pacientes">pacientes</a></div>
             <div class="col"><a href="perfil">Perfil</a></div>
             {% elif user.tipo_empleado == 'Paramedico' %}

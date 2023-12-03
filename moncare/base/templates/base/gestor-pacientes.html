@@ -67,9 +67,9 @@
           {% if user.tipo_empleado == 'Medico' %}
           {% if accion == 'Gestor' %}
           <a href="{% url "agregar_paciente1" %}">Nuevo</a>
-          {% else %}
-          <a href="{% url "pacientes" %}">Volver</a>
           {% endif %}
+          {% elif accion == 'Agregar' %}
+          <a href="{% url "pacientes" %}">Volver</a>
           {% endif %}
         </div>
       </div>
@@ -101,7 +101,9 @@
               <td><div class="buttons">
                 {% if accion == 'Gestor' %}
                 <a href="{% url "detalles_paciente" paciente.0%}">Detalles</a>
+                {% if user.tipo_empleado == 'Medico' %}
                 <a href="{% url "elimiar_paciente" paciente.0%}">Eliminar</a>
+                {% endif %}
                 {% else %}
                 <a href="{% url "agregar_paciente" paciente.0%}">agregar</a>
                 {% endif %}
