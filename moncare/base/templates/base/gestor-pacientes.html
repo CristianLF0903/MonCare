@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestor de pacientes</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+
+    <style>
+      body {
+        background-image: url("{% static "waves_bg.png" %}");
+        background-size: 100% 100%; /* Hace que la imagen se ajuste al 100% del ancho y mantenga la altura original */
+        background-position: center center;
+        background-repeat: no-repeat;
+
+        height: cover;
+        weight: cover;
+        margin: 0;
+        padding: 15px;
+        min-height: 100vh;
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'pagina_principal' %}">
+          <img
+            src="{% static 'logo.png' %}"
+            alt="Logo"
+            width="30"
+            height="24"
+            class="d-inline-block align-text-top"
+          />
+          Moncare
+        </a>
+        <div class="d-flex">
+          <a class="navbar-text" href="{% url 'logout' %}">
+            <img
+              src="{% static 'cerrar-sesion.png' %}"
+              alt="Logo"
+              width="15"
+              height="12"
+              class="d-inline-block align-text-top"
+            />
+            Cerrar sesión
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="content-container">
+      <div class="opcion-container">
+        <h1 class="title">{{accion}} {{entidad}}</h1>
+        <div class="buttons">
+          {% if user.tipo_empleado == 'Medico' %}
+          {% if accion == 'Gestor' %}
+          <a href="{% url "agregar_paciente1" %}">Nuevo</a>
+          {% endif %}
+          {% elif accion == 'Agregar' %}
+          <a href="{% url "pacientes" %}">Volver</a>
+          {% endif %}
+        </div>
+      </div>
+      {% if messages %}
+      <div class="messages">
+          {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">
+                  {{ message }}
+              </div>
+          {% endfor %}
+      </div>
+      {% endif %}
+      <div class="table-container">
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Apellido</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for paciente in pacientes %}
+            <tr scope="row">
+              <td>{{ paciente.0 }}</td>
+              <td>{{paciente.1}}</td>
+              <td>{{paciente.2}}</td>
+              <td><div class="buttons">
+                {% if accion == 'Gestor' %}
+                <a href="{% url "detalles_paciente" paciente.0%}">Detalles</a>
+                {% if user.tipo_empleado == 'Medico' %}
+                <a href="{% url "elimiar_paciente" paciente.0%}">Eliminar</a>
+                {% endif %}
+                {% else %}
+                <a href="{% url "agregar_paciente" paciente.0%}">agregar</a>
+                {% endif %}
+              </div></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  </body>
+</html>
