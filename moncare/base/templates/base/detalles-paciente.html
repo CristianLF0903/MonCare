@@ -79,14 +79,18 @@
       {% endif %}
       <div class='detalles_dispositivo'>
         <h2>Dispositivos</h2>
+        {% if user.tipo_usuario == 'Empleado de Salud' %}
         <a href={% url "agregar_dispositivo_p" paciente.id%}>Agregar</a>
+        {% endif %}
         <table class="table">
             <thead class="thead-dark">
               <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Referencia</th>
                 <th scope="col">Marca</th>
+                {% if user.tipo_usuario == 'Empleado de Salud'%}
                 <th scope="col">Acciones</th>
+                {% endif %}
               </tr>
             </thead>
             <tbody>
@@ -95,7 +99,9 @@
                 <td>{{ dispositivo.0 }}</td>
                 <td>{{dispositivo.1}}</td>
                 <td>{{dispositivo.2}}</td>
+                {% if user.tipo_usuario == 'Empleado de Salud' %}
                 <td><a href="{% url "eliminar_dispositivo_p" dispositivo.0%}">Eliminar</a></td>
+                {% endif %}
               </tr>
               {% endfor %}
             </tbody>
@@ -110,7 +116,9 @@
           <div class="col"><a href={% url "eliminar_cuidador" cuidador.id paciente.id%}>Eliminar</a></div>
           {% endif %}
           {% else %}
+          {% if user.tipo_empleado == 'Medico' %}
           <div class="col"><a href={% url "asignar_cuidador_list" paciente.id%}>Asignar</a></div>
+          {% endif %}
           {% endif %}
         </div>
       </div>

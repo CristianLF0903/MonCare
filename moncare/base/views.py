@@ -156,7 +156,7 @@ def eliminar_empleado(request, empleado_id):
 def pacientes(request):
     user_logged = request.user
     if user_logged.tipo_usuario == 'Empleado de Salud':
-        pacientes = list(user_logged.pacientes.all().values_list('id','first_name','last_name', 'email'))
+        pacientes = list(user_logged.pacientes.all().values_list('id','first_name','last_name'))
 
         return render(request, 'base/gestor-pacientes.html', {'pacientes': pacientes, 'accion': 'Gestor', 'entidad': 'de pacientes'})
 
@@ -201,9 +201,9 @@ def detalles_paciente(request, paciente_id):
     historia_clinica = Historia_Clinica.objects.filter(paciente = paciente)
     dispositivos = Dispositivo_Medico.objects.filter(id_paciente = paciente).values_list('id', 'referencia', 'marca')
 
-    #registros = Registro.objects.filter(id_historia_clinica=historia_clinica)
+    #registros = Registro.objects.filter(id_historia_clinica = historia_clinica)
     registros = Registro.objects.all()
-
+    
     return render(request, 'base/detalles-paciente.html', {'paciente':paciente, 'HC':historia_clinica, 'dispositivos': dispositivos, 'cuidador': cuidador, 'registros':registros})
 
 @login_required
@@ -299,3 +299,55 @@ def agregar_cuidador_paciente(request, paciente_id, cuidador_id):
     messages.success(request, 'El cuidador se asigno correctamente.')
     return redirect('detalles_paciente', paciente_id)  # Puedes redirigir a una página de error o renderizar una plantilla de error específica
     
+
+#Familiar
+@login_required
+def familiares(request):
+    user = request.user
+
+    familiares = user.familiares.all()
+
+    accion = 'Gestor'
+    
+    return render(request, 'base/gestor-familiares.html', {'personas': familiares, 'accion': accion, 'entidad': 'de Familiares'})
+
+@login_required
+def elimiar_persona(request, familiar_id):
+    user = request.user
+    try:
+        familiar = get_object_or_404(Usuario, id=familiar_id)
+    except familiar.DoesNotExist:
+        messages.error(request, 'Hubo un error, no se encontró el usuario.')
+        return redirect('familiares') 
+    
+    familiar.familiares.remove(user)
+    familiar.save()
+    user.familiares.remove(familiar)
+    user.save()
+
+    messages.success(request, 'El familiar se elimino correctamente.')
+    return redirect('familiares')  # Puedes redirigir a una página de error o renderizar una plantilla de error específica
+
+@login_required
+def agregar_familiar(request):
+    user = request.user
+    familiares = Usuario.objects.filter(tipo_usuario='Familiar').exclude(id__in=user.familiares.all())
+
+    return render(request, 'base/gestor-familiares.html', {'personas': familiares, 'accion': 'Agregar', 'entidad': 'Familiar'})
+
+@login_required
+def asignar_persona(request, familiar_id):
+    user = request.user
+    try:
+        familiar = get_object_or_404(Usuario, id=familiar_id)
+    except paciente.DoesNotExist or cuidador.DoesNotExist:
+        messages.error(request, 'Hubo un error, no se encontró el usuario.')
+        return redirect('familiares')  # Puedes redirigir a una página de error o renderizar una plantilla de error específica
+
+    familiar.familiares.add(user)
+    familiar.save()
+    user.familiares.add(familiar)
+    user.save()
+
+    messages.success(request, 'El familiar se asigno correctamente.')
+    return redirect('familiares')

@@ -31,4 +31,9 @@ urlpatterns = [
     path("Moncare/asignar_cuidador/<int:paciente_id>/<int:cuidador_id>", agregar_cuidador_paciente, name="asignar_cuidador"),
     path("Moncare/eliminar_cuidador/<int:paciente_id>/<int:cuidador_id>", eliminar_cuidador_p, name="eliminar_cuidador"),
 
+    # Familiares
+    path("Moncare/familiares/", familiares, name="familiares"),
+    path("Moncare/eliminar_familiar/<int:familiar_id>", elimiar_persona, name="elimiar_persona"),
+    path("Moncare/asignar_familiar/<int:familiar_id>", asignar_persona, name="agregar_persona"),
+    path("Moncare/asignar_familiar/", agregar_familiar, name="agregar_familiar1"),
 ]

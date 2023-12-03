@@ -64,13 +64,12 @@
       <div class="opcion-container">
         <h1 class="title">{{accion}} {{entidad}}</h1>
         <div class="buttons">
-          {% if user.tipo_empleado == 'Medico' %}
-          {% if accion == 'Gestor' %}
-          <a href="{% url "agregar_paciente1" %}">Nuevo</a>
-          {% endif %}
-          {% elif accion == 'Agregar' %}
-          <a href="{% url "pacientes" %}">Volver</a>
-          {% endif %}
+          {% if user.tipo_usuario == 'Paciente' %}
+            {% if accion == 'Gestor' %}
+            <a href="{% url "agregar_familiar1" %}">Nuevo</a>
+            {% else %}
+            <a href="{% url "familiares" %}">Volver</a>
+          {% endif %}{% endif %}
         </div>
       </div>
       {% if messages %}
@@ -93,19 +92,21 @@
             </tr>
           </thead>
           <tbody>
-            {% for paciente in pacientes %}
+            {% for persona in personas %}
             <tr scope="row">
-              <td>{{ paciente.0 }}</td>
-              <td>{{paciente.1}}</td>
-              <td>{{paciente.2}}</td>
+              <td>{{ persona.id }}</td>
+              <td>{{persona.first_name}}</td>
+              <td>{{persona.last_name}}</td>
               <td><div class="buttons">
                 {% if accion == 'Gestor' %}
-                <a href="{% url "detalles_paciente" paciente.0%}">Detalles</a>
-                {% if user.tipo_empleado == 'Medico' %}
-                <a href="{% url "elimiar_paciente" paciente.0%}">Eliminar</a>
+                {% if user.tipo_usuario == 'Familiar' %}
+                <a href="{% url "detalles_paciente" persona.id %}">Detalles</a>
+                {% endif %}
+                {% if user.tipo_usuario == 'Paciente' %}
+                <a href="{% url "elimiar_persona" persona.id %}">Eliminar</a>
                 {% endif %}
                 {% else %}
-                <a href="{% url "agregar_paciente" paciente.0%}">agregar</a>
+                <a href="{% url "agregar_persona" persona.id %}">agregar</a>
                 {% endif %}
               </div></td>
             </tr>

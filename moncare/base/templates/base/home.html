@@ -98,30 +98,30 @@
             {% if user.is_admin %}
             <div class="col"><a href="dispositivos">Dispositivos</a></div>
             <div class="col"><a href="empleados">Empleados</a></div>
-            <div class="col"><a href="perfil">Perfil</a></div>
+            <div class="col"><a href={% url "perfil" %}>Perfil</a></div>
             {% else %} {% if user.tipo_usuario == 'Paciente' %}
             <div class="col">
-              <a href="historia-clinica">Historia Clinica</a>
+              <a href={% url "detalles_paciente" user.id%}>Historia Clinica</a>
             </div>
             <div class="col"><a href="episodio_medico">Episodio Medico</a></div>
-            <div class="col"><a href="familiares">Familiares</a></div>
+            <div class="col"><a href={% url "familiares" %}>Familiares</a></div>
             <div class="col"><a href="notificaciones">Notificaciones</a></div>
-            <div class="col"><a href="perfil">Perfil</a></div>
+            <div class="col"><a href={% url "perfil" %}>Perfil</a></div>
             {% elif user.tipo_usuario == 'Familiar' %}
             <div class="col">
-              <a href="historia_clinica">Historia Clinica</a>
+              <a href={% url "familiares" %}>Historias Clinicas</a>
             </div>
             <div class="col"><a href="notificaciones">Notificaciones</a></div>
-            <div class="col"><a href="perfil">Perfil</a></div>
+            <div class="col"><a href={% url "perfil" %}>Perfil</a></div>
             {% else %} {% if user.tipo_empleado == 'Medico' %}
             <div class="col"><a href="pacientes">pacientes</a></div>
-            <div class="col"><a href="perfil">Perfil</a></div>
+            <div class="col"><a href={% url "perfil" %}>Perfil</a></div>
             {% elif user.tipo_empleado == 'Cuidador' %}
             <div class="col"><a href="pacientes">pacientes</a></div>
-            <div class="col"><a href="perfil">Perfil</a></div>
+            <div class="col"><a href={% url "perfil" %}>Perfil</a></div>
             {% elif user.tipo_empleado == 'Paramedico' %}
             <div class="col"><a href="pacientes">Alarmas</a></div>
-            <div class="col"><a href="perfil">Perfil</a></div>
+            <div class="col"><a href={% url "perfil" %}>Perfil</a></div>
             {% else %}
             <div class="box">
               <div class="group">
