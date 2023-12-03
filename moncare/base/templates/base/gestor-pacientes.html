@@ -62,9 +62,15 @@
 
     <div class="content-container">
       <div class="opcion-container">
-        <h1 class="title">Gestor de dispositivos</h1>
+        <h1 class="title">{{accion}} {{entidad}}</h1>
         <div class="buttons">
-          <a href="{% url "agregar_dispositivo" %}">Nuevo</a>
+          {% if user.tipo_empleado == 'Medico' %}
+          {% if accion == 'Gestor' %}
+          <a href="{% url "agregar_paciente1" %}">Nuevo</a>
+          {% else %}
+          <a href="{% url "pacientes" %}">Volver</a>
+          {% endif %}
+          {% endif %}
         </div>
       </div>
       {% if messages %}
@@ -81,21 +87,25 @@
           <thead class="thead-dark">
             <tr>
               <th scope="col">ID</th>
-              <th scope="col">Referencia</th>
-              <th scope="col">Marca</th>
-              <th scope="col">Asignado</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Apellido</th>
               <th scope="col">Acciones</th>
             </tr>
           </thead>
           <tbody>
-            {% for dispositivo in dispositivos %}
+            {% for paciente in pacientes %}
             <tr scope="row">
-              <td>{{ dispositivo.0 }}</td>
-              <td>{{dispositivo.1}}</td>
+              <td>{{ paciente.0 }}</td>
+              <td>{{paciente.1}}</td>
               <td>{{dispositivo.2}}</td>
-              <td class="boolean">{{dispositivo.3}}</td>
-              <td><div class="buttons"><a href="{% url "editar_dispositivo" dispositivo.0%}">Editar</a>
-                <a href="{% url "elimiar_dispositivo" dispositivo.0%}">Eliminar</a></div></td>
+              <td><div class="buttons">
+                {% if accion == 'Gestor' %}
+                <a href="{% url "detalles_paciente" paciente.0%}">Detalles</a>
+                <a href="{% url "elimiar_paciente" paciente.0%}">Eliminar</a>
+                {% else %}
+                <a href="{% url "agregar_paciente" paciente.0%}">agregar</a>
+                {% endif %}
+              </div></td>
             </tr>
             {% endfor %}
           </tbody>

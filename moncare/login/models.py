@@ -19,6 +19,12 @@ class Usuario(AbstractUser):
     is_admin = models.BooleanField(default=False)
     tipo_empleado = models.CharField(max_length=20, choices=EMPLOYE_TYPE_CHOICES, null=True, blank=True)
 
+    # Campo para almacenar pacientes (lista de usuarios)
+    pacientes = models.ManyToManyField('self', symmetrical=False, related_name='mis_pacientes', blank=True)
+    tiene_medico = models.BooleanField(default=False)
+    # Campo para almacenar familiares (lista de usuarios)
+    familiares = models.ManyToManyField('self', symmetrical=False, related_name='mis_familiares', blank=True)
+
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
     
