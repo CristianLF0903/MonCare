@@ -88,7 +88,7 @@ class Episodio_Revisa_Medicion(models.Model):
 class Registro(models.Model):
     fecha_creacion = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de Registro')
     descripcion = models.CharField(max_length=255, verbose_name='Descripcion del Registro', null=False)
-    id_historia_clinica = models.ForeignKey(Historia_Clinica, on_delete=models.CASCADE, null=False, blank=False)
+    id_historia_clinica = models.OneToOneField(Historia_Clinica, on_delete=models.CASCADE, null=False, blank=False)
     id_medicion = models.OneToOneField(Medicion, on_delete=models.CASCADE, related_name='Registro_medidas', null=False, blank=True)
 
 class Notificacion(models.Model):

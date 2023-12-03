@@ -62,7 +62,10 @@
 
     <div class="content-container">
       <div class="opcion-container">
-        <h1 class="title">Gestor de empleados</h1>
+        <h1 class="title">{{accion}} {{entidad}}</h1>
+        {% if accion != 'Gestor' %}
+        <a href="{% url "detalles_paciente" paciente%}">Volver</a>
+        {% endif %}
       </div>
       {% if messages %}
       <div class="messages">
@@ -95,8 +98,14 @@
               {% else %}
               <td>{{empleado.4}}</td>
               {% endif %}
-              <td><div class="buttons"><a href="{% url "editar_empleado" empleado.0%}">Editar</a>
-                <a href="{% url "elimiar_empleado" empleado.0%}">Eliminar</a></div></td>
+              <td>
+                {% if accion == 'Gestor' %}
+                <div class="buttons"><a href="{% url "editar_empleado" empleado.0%}">Editar</a>
+                  <a href="{% url "elimiar_empleado" empleado.0%}">Eliminar</a></div>
+                  {% else %}
+                  <a href="{% url "asignar_cuidador" paciente empleado.0%}">Asignar</a>
+                  {% endif %}
+              </td>
             </tr>
             {% endfor %}
           </tbody>

@@ -63,11 +63,13 @@
     <div class="content-container">
       <div class="opcion-container">
         <h1 class="title">{{accion}} {{entidad}}</h1>
-        {% if accion == 'Gestor' %}
         <div class="buttons">
+          {% if accion == 'Gestor' %}
           <a href="{% url "agregar_dispositivo" %}">Nuevo</a>
+          {% else %}
+          <a href="{% url "detalles_paciente" paciente%}">Volver</a>
+          {% endif %}
         </div>
-        {% endif %}
       </div>
       {% if messages %}
       <div class="messages">

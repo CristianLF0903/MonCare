@@ -112,7 +112,7 @@ def empleados(request):
     if user_logged.is_admin:
         empleados = list(Usuario.objects.filter(tipo_usuario = 'Empleado de Salud', is_admin=False).values_list('id','first_name','last_name', 'email', 'tipo_empleado'))
 
-        return render(request, 'base/gestor-empleados.html', {'empleados': empleados})
+        return render(request, 'base/gestor-empleados.html', {'empleados': empleados, 'accion': 'Gestor', 'entidad': 'de Empleados'})
 
     else:
         messages.error(request, 'No tienes acceso a esta vista')
@@ -200,7 +200,11 @@ def detalles_paciente(request, paciente_id):
     cuidador = Usuario.objects.filter(tipo_usuario='Empleado de Salud', tipo_empleado='Cuidador', pacientes=paciente).first()
     historia_clinica = Historia_Clinica.objects.filter(paciente = paciente)
     dispositivos = Dispositivo_Medico.objects.filter(id_paciente = paciente).values_list('id', 'referencia', 'marca')
-    return render(request, 'base/detalles-paciente.html', {'paciente':paciente, 'HC':historia_clinica, 'dispositivos': dispositivos, 'cuidador': cuidador})
+
+    #registros = Registro.objects.filter(id_historia_clinica=historia_clinica)
+    registros = Registro.objects.all()
+
+    return render(request, 'base/detalles-paciente.html', {'paciente':paciente, 'HC':historia_clinica, 'dispositivos': dispositivos, 'cuidador': cuidador, 'registros':registros})
 
 @login_required
 def eliminar_paciente(request, paciente_id):
@@ -225,9 +229,9 @@ def agregar_dispositivo_paciente(request, paciente_id, dispositivo_id):
     user = request.user
     try:
         dispositivo = get_object_or_404(Dispositivo_Medico, id=dispositivo_id)
-    except paciente.DoesNotExist:
+    except dispositivo.DoesNotExist:
         messages.error(request, 'Hubo un error, no se encontró el dispositivo.')
-        return redirect('pacientes')  # Puedes redirigir a una página de error o renderizar una plantilla de error específica
+        return redirect('detalles_paciente', paciente_id)  # Puedes redirigir a una página de error o renderizar una plantilla de error específica
 
     dispositivo.id_paciente = Usuario.objects.get(id=paciente_id)
     dispositivo.id_configurador = user
@@ -241,7 +245,7 @@ def agregar_dispositivo_paciente(request, paciente_id, dispositivo_id):
 @login_required
 def agregar_dispositivo_p(request, paciente_id):
 
-    dispositivos = list(Dispositivo_Medico.objects.values_list('id', 'referencia', 'marca'))
+    dispositivos = list(Dispositivo_Medico.objects.filter(asignado=False).values_list('id', 'referencia', 'marca'))
 
 
     return render(request, 'base/gestor-dispositivos.html', {'dispositivos': dispositivos, 'accion': 'Agregar', 'entidad': 'dispositivo a paciente', 'paciente': paciente_id})
@@ -257,3 +261,40 @@ def eliminar_dispositivo_p(request, dispositivo_id):
     dispositivo.save()
 
     return redirect('detalles_paciente', paciente)
+
+@login_required
+def eliminar_cuidador_p(request, paciente_id, cuidador_id):
+
+    cuidador = Usuario.objects.get(id = cuidador_id)
+    paciente = Usuario.objects.get(id = paciente_id)
+
+    cuidador.pacientes.remove(paciente)
+    cuidador.save()
+
+    messages.success(request, 'El cuidador se elimino correctamente.')
+    return redirect('detalles_paciente', paciente_id)
+
+@login_required
+def agregar_cuidador_p(request, paciente_id):
+
+    empleados = list(Usuario.objects.filter(tipo_usuario = 'Empleado de Salud',tipo_empleado='Cuidador', is_admin=False).values_list('id','first_name','last_name', 'email', 'tipo_empleado'))
+
+
+    return render(request, 'base/gestor-empleados.html', {'empleados': empleados, 'accion': 'Agregar', 'entidad': 'cuidador a paciente', 'paciente': paciente_id})
+
+@login_required
+def agregar_cuidador_paciente(request, paciente_id, cuidador_id):
+    user = request.user
+    try:
+        cuidador = get_object_or_404(Usuario, id=cuidador_id)
+        paciente = get_object_or_404(Usuario, id = paciente_id)
+    except paciente.DoesNotExist or cuidador.DoesNotExist:
+        messages.error(request, 'Hubo un error, no se encontró el usuario.')
+        return redirect('detalles_paciente', paciente_id)  # Puedes redirigir a una página de error o renderizar una plantilla de error específica
+
+    cuidador.pacientes.add(paciente)
+    cuidador.save()
+
+    messages.success(request, 'El cuidador se asigno correctamente.')
+    return redirect('detalles_paciente', paciente_id)  # Puedes redirigir a una página de error o renderizar una plantilla de error específica
+    

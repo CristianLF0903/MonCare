@@ -95,7 +95,7 @@
                 <td>{{ dispositivo.0 }}</td>
                 <td>{{dispositivo.1}}</td>
                 <td>{{dispositivo.2}}</td>
-                <td><a href="{% url "elimiar_dispositivo_p" dispositivo.0%}">Eliminar</a></td>
+                <td><a href="{% url "eliminar_dispositivo_p" dispositivo.0%}">Eliminar</a></td>
               </tr>
               {% endfor %}
             </tbody>
@@ -106,14 +106,36 @@
           <div class="col">Cuidador</div>
           {% if cuidador != None %}
           <div class="col">{{cuidador}}</div>
-          <div class="col"><a>Eliminar</a></div>
+          <div class="col"><a href={% url "eliminar_cuidador" cuidador.id paciente.id%}>Eliminar</a></div>
           {% else %}
-          <div class="col"><a>Asignar</a></div>
+          <div class="col"><a href={% url "asignar_cuidador_list" paciente.id%}>Asignar</a></div>
           {% endif %}
         </div>
       </div>
       <div class="table-container">
-        <h1>Registros</h1>
+        <h2>Registros</h2>
+        <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Fecha</th>
+                <th scope="col">Descripcion</th>
+                <th scope="col">Parametro</th>
+                <th scope="col">Valor</th>
+                <th scope="col">Dispositivo</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for registro in registros %}
+                <tr scope="row">
+                    <td>{{registro.fecha_creacion}}</td>
+                    <td>{{registro.descripcion}}</td>
+                    <td>{{registro.id_medicion.parametro}}</td>
+                    <td>{{registro.id_medicion.valor}} {{registro.id_medicion.unidades}}</td>
+                    <td>{{registro.id_medicion.id_dispositivo.referencia}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
       </div>
     </div>
 
